@@ -1,0 +1,3 @@
+db.url=jdbc:mysql://localhost:3306/libman7?sslMode=PREFERRED&characterEncoding=UTF-8
+db.user=root
+db.password=CHANGE_ME
