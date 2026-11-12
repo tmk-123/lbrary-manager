@@ -1,5 +1,6 @@
 package model;
 
+// Họ tên thành viên, tách riêng họ, tên đệm và tên.
 public class FullName7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

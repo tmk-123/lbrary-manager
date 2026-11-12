@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// Thông tin chung của một đầu tài liệu; mỗi bản vật lý được biểu diễn bằng DocumentCopy7.
 public class Document7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
@@ -75,6 +76,7 @@ public class Document7 implements java.io.Serializable {
         this.documentType = documentType;
     }
 
+    // Trả danh sách chỉ đọc; setter bên dưới sao chép danh sách đầu vào để giữ tính đóng gói.
     public List<DocumentAuthor7> getDocumentAuthors() {
         return Collections.unmodifiableList(documentAuthors);
     }
@@ -82,6 +84,7 @@ public class Document7 implements java.io.Serializable {
     public void setDocumentAuthors(List<DocumentAuthor7> documentAuthors) {
         this.documentAuthors = documentAuthors == null ? new ArrayList<>() : new ArrayList<>(documentAuthors);
     }
+    // Bổ sung tác giả khi DAO đóng gói các dòng kết quả của cùng một tài liệu.
     public void addDocumentAuthor(DocumentAuthor7 author) {
         if (author == null) throw new IllegalArgumentException("Tác giả không được null");
         documentAuthors.add(author);

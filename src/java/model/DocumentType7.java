@@ -1,5 +1,6 @@
 package model;
 
+// Loại tài liệu dùng để phân loại các đầu tài liệu trong thư viện.
 public class DocumentType7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

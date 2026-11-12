@@ -13,7 +13,7 @@ import java.util.UUID;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import dao.DocumentCopyDAO;
+import dao.DocumentCopyDAO7;
 import model.DocumentCopy7;
 import model.Librarian7;
 import model.Loan7;
@@ -22,6 +22,7 @@ import model.ReaderCard7;
 import util.BorrowingRules7;
 import util.View7;
 
+// Điều khiển lượt mượn: tạo phiếu tạm, thêm/bỏ bản tài liệu, hủy hoặc hoàn tất.
 @WebServlet("/librarian/BorrowDocumentServlet7")
 public class BorrowDocumentServlet7 extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -35,9 +36,11 @@ public class BorrowDocumentServlet7 extends HttpServlet {
             resp.sendRedirect("../gdLogin7.jsp?err=timeout"); return;
         }
         synchronized (session) {
+            // Phân biệt thao tác bằng action: new, add, remove, cancel hoặc finish.
             String action = req.getParameter("action");
             ReaderCard7 card = (ReaderCard7) session.getAttribute("readerCard");
             Loan7 loan = (Loan7) session.getAttribute("loan");
+            // Tạo phiếu tạm cho bạn đọc vừa xác định và sinh token phân biệt lượt mượn này với các form cũ.
             if ("new".equals(action)) {
                 if (card == null || !Integer.toString(card.getId()).equals(req.getParameter("readerCardId"))) {
                     resp.sendError(409, "Thông tin thẻ đã thay đổi. Vui lòng xác định lại bạn đọc."); return;
@@ -48,10 +51,12 @@ public class BorrowDocumentServlet7 extends HttpServlet {
                 session.removeAttribute("borrowMessage");
                 resp.sendRedirect("BorrowDocumentServlet7"); return;
             }
+            // Từ chối form cũ hoặc form thuộc lượt mượn khác khi token không trùng session hiện tại.
             String token = (String) session.getAttribute("loanToken");
             if (loan == null || token == null || !token.equals(req.getParameter("loanToken"))) {
                 resp.sendError(409, "Phiếu mượn đã thay đổi. Vui lòng mở lại lượt mượn hiện tại."); return;
             }
+            // Hoàn tất phiếu đã lưu hoặc hủy phiếu chưa lưu: dọn session rồi về trang chính, không xóa phiếu trong CSDL.
             if ("finish".equals(action) && loan.isSaved() || "cancel".equals(action) && !loan.isSaved()) {
                 clearDraft(session); resp.sendRedirect("gdMainLibrarian7.jsp"); return;
             }
@@ -60,6 +65,7 @@ public class BorrowDocumentServlet7 extends HttpServlet {
                 clearDraft(session); resp.sendRedirect("IdentifyReaderServlet7"); return;
             }
             String message;
+            // Thêm bản bằng mã vạch; thao tác remove bên dưới chỉ bỏ bản khỏi danh sách phiếu tạm.
             if ("add".equals(action)) {
                 try {
                     message = addCopy(loan, card, View7.list(session.getAttribute("listCurrentLoan"), LoanItem7.class), req.getParameter("txtBarcode"));
@@ -72,12 +78,14 @@ public class BorrowDocumentServlet7 extends HttpServlet {
                     message = loan.removeLoanItem(Integer.parseInt(req.getParameter("idCopy"))) ? null : "Bản không còn trong danh sách";
                 } catch (NumberFormatException e) { resp.sendError(400, "Mã bản không hợp lệ"); return; }
             } else { resp.sendError(400, "Thao tác không hợp lệ"); return; }
+            // Sau POST chuyển hướng về GET để tải lại trang mà không gửi lại thao tác khi người dùng refresh.
             session.setAttribute("borrowMessage", message);
             resp.sendRedirect("BorrowDocumentServlet7");
         }
     }
 
     @Override
+    // Hiển thị phiếu tạm hiện tại; phiếu đã lưu được chuyển sang màn hình phiếu mượn.
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
         if (session == null || session.getAttribute("librarian") == null) {
@@ -93,13 +101,15 @@ public class BorrowDocumentServlet7 extends HttpServlet {
         }
     }
 
+    // Trả null khi thêm thành công; trả chuỗi thông báo khi mã vạch hoặc điều kiện mượn không hợp lệ.
     private String addCopy(Loan7 loan, ReaderCard7 card, List<LoanItem7> current, String barcode) throws SQLException {
         if (barcode == null || barcode.isBlank()) return "Vui lòng quét hoặc nhập mã vạch";
         String validation = BorrowingRules7.validate(card, current, loan.getLoanItems().size() + 1, BorrowingRules7.today());
         if (validation != null) return validation;
         for (LoanItem7 item : loan.getLoanItems())
             if (item.getDocumentCopy().getBarcode().equalsIgnoreCase(barcode.trim())) return "Bản đã có trong danh sách mượn";
-        DocumentCopy7 copy = new DocumentCopyDAO().getCopyByBarcode(barcode.trim());
+        // Đọc bản từ CSDL và chỉ cho chọn bản đang Sẵn có; trạng thái vẫn được kiểm tra lại lúc lưu.
+        DocumentCopy7 copy = new DocumentCopyDAO7().getCopyByBarcode(barcode.trim());
         if (copy == null) return "Không tìm thấy bản tài liệu có mã " + barcode.trim();
         if (!"Sẵn có".equals(copy.getStatus())) return "Bản " + copy.getBarcode() + " không ở trạng thái sẵn có";
         LoanItem7 item = new LoanItem7(); item.setDocumentCopy(copy);
@@ -108,6 +118,7 @@ public class BorrowDocumentServlet7 extends HttpServlet {
         return null;
     }
 
+    // Chỉ xóa dữ liệu lượt mượn trong session, giữ phiên đăng nhập và lịch sử đã lưu trong CSDL.
     private void clearDraft(HttpSession session) {
         for (String key : new String[]{"loan", "loanToken", "readerCard", "listCurrentLoan", "borrowMessage"}) session.removeAttribute(key);
     }

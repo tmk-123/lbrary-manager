@@ -11,8 +11,9 @@ import model.Document7;
 import model.DocumentAuthor7;
 import model.DocumentType7;
 
-public class DocumentDAO extends DAO {
-    public DocumentDAO() {
+// Truy vấn đầu tài liệu và đóng gói kết quả kèm loại tài liệu, tác giả.
+public class DocumentDAO7 extends DAO {
+    public DocumentDAO7() {
         super();
     }
 
@@ -31,10 +32,12 @@ public class DocumentDAO extends DAO {
                 + "LEFT JOIN tblAuthor7 a ON a.id = da.tblAuthor7id "
                 + "WHERE d.title LIKE ? ORDER BY d.title, d.id, da.id";
         try (Connection con = getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            // Tìm gần đúng theo tên; PreparedStatement truyền từ khóa như dữ liệu, không ghép vào câu SQL.
             ps.setString(1, "%" + title + "%");
             try (ResultSet rs = ps.executeQuery()) {
                 Document7 d = null;
                 while (rs.next()) {
+                    // JOIN tác giả có thể tạo nhiều dòng cho một tài liệu; chỉ tạo Document7 mới khi ID thay đổi.
                     if (d == null || d.getId() != rs.getInt("id")) {
                         d = new Document7();
                         d.setId(rs.getInt("id"));
@@ -87,6 +90,7 @@ public class DocumentDAO extends DAO {
             ps.setInt(1, idDocument);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    // Chỉ tạo đối tượng tài liệu một lần; các dòng tiếp theo bổ sung tác giả cho cùng tài liệu.
                     if (kq == null) {
                         kq = new Document7();
                         kq.setId(rs.getInt("id"));

@@ -13,14 +13,17 @@ import model.ReaderType7;
 public final class BorrowingRules7 {
     public static final ZoneId ZONE = ZoneId.of("Asia/Bangkok");
     private BorrowingRules7() { }
+    // Dùng cùng múi giờ cho ngày hiện tại và các phép kiểm tra hạn trả.
     public static LocalDate today() { return LocalDate.now(ZONE); }
     public static LocalDate date(Date value) {
         return Instant.ofEpochMilli(value.getTime()).atZone(ZONE).toLocalDate();
     }
+    // Hạn trả là ngày mượn cộng số ngày được phép theo loại bạn đọc.
     public static Date dueDate(Date borrowedAt, int loanDays) {
         return Date.from(date(borrowedAt).plusDays(loanDays).atStartOfDay(ZONE).toInstant());
     }
     /** null means eligible; a non-null value is a user-facing validation error. */
+    // Trả null nếu được mượn; kiểm tra lần lượt thẻ, quy định, quá hạn và tổng số bản sau khi chọn.
     public static String validate(ReaderCard7 card, List<LoanItem7> current, int selected, LocalDate today) {
         if (card == null || card.getReader() == null || current == null) return "Chưa kiểm tra được điều kiện mượn";
         if (!"Đang hiệu lực".equals(card.getStatus())) return "Thẻ không ở trạng thái đang hiệu lực";
@@ -32,6 +35,7 @@ public final class BorrowingRules7 {
             if (item.getDueDate() == null) return "Chưa xác định được hạn trả của tài liệu đang mượn";
             if (date(item.getDueDate()).isBefore(today)) return "Bạn đọc phải trả tài liệu quá hạn trước khi mượn thêm";
         }
+        // selected là số bản của lượt mượn mới, chưa nằm trong danh sách current đang mượn.
         if (selected < 0 || current.size() + selected > type.getMaxBooks())
             return "Vượt số tài liệu tối đa: " + type.getMaxBooks() + " cuốn (đang mượn " + current.size() + ")";
         return null;

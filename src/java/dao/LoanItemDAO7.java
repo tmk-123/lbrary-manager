@@ -10,8 +10,9 @@ import model.Document7;
 import model.DocumentCopy7;
 import model.LoanItem7;
 
-public class LoanItemDAO extends DAO {
-    public LoanItemDAO() {
+// Tra cứu các dòng mượn chưa trả để hiển thị và kiểm tra điều kiện mượn thêm.
+public class LoanItemDAO7 extends DAO {
+    public LoanItemDAO7() {
         super();
     }
 
@@ -25,8 +26,10 @@ public class LoanItemDAO extends DAO {
         try (Connection con = getConnection()) { return getUnreturnedItems(con, idReader); }
     }
 
+    // Dùng chung kết nối với giao dịch lưu phiếu để kiểm tra lại các bản chưa trả.
     ArrayList<LoanItem7> getUnreturnedItems(Connection con, int idReader) throws SQLException {
         ArrayList<LoanItem7> kq = new ArrayList<LoanItem7>();
+        // Dòng mượn chưa có dòng trả tương ứng mới được tính là đang mượn; sắp theo hạn trả.
         String sql = "SELECT li.id, li.dueDate, c.id AS idCopy, c.barcode, c.condition, c.status, "
                 + "d.id AS idDocument, d.title "
                 + "FROM tblLoanItem7 li JOIN tblLoan7 l ON l.id = li.tblLoan7id "

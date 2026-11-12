@@ -12,8 +12,9 @@ import model.Member7;
 import model.Reader7;
 import model.ReaderType7;
 
-public class MemberDAO extends DAO {
-    public MemberDAO() {
+// Kiểm tra tài khoản và đóng gói thành viên theo vai trò đăng nhập.
+public class MemberDAO7 extends DAO {
+    public MemberDAO7() {
         super();
     }
 
@@ -36,6 +37,7 @@ public class MemberDAO extends DAO {
             ps.setString(2, password);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    // Chọn lớp con theo dữ liệu vai trò để Servlet chuyển người dùng đến đúng giao diện.
                     if (rs.getObject("tblReaderType7id") != null) {
                         Reader7 r = new Reader7();
                         ReaderType7 t = new ReaderType7();

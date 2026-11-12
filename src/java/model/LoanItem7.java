@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+// Một dòng mượn gắn với một bản tài liệu cụ thể và hạn trả của bản đó.
 public class LoanItem7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
@@ -20,6 +21,7 @@ public class LoanItem7 implements java.io.Serializable {
         this.id = id;
     }
 
+    // Các getter/setter kiểu Date dùng bản sao để bên ngoài không sửa trực tiếp ngày đang lưu trong đối tượng.
     public Date getDueDate() {
         return dueDate == null ? null : new Date(dueDate.getTime());
     }

@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+// Thông tin chung của thành viên; các vai trò bạn đọc và nhân viên kế thừa lớp này.
 public class Member7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
@@ -49,6 +50,7 @@ public class Member7 implements java.io.Serializable {
         this.fullName = fullName;
     }
 
+    // Các getter/setter kiểu Date dùng bản sao để bên ngoài không sửa trực tiếp ngày đang lưu trong đối tượng.
     public Date getDateOfBirth() {
         return dateOfBirth == null ? null : new Date(dateOfBirth.getTime());
     }

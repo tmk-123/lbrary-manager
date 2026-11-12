@@ -1,5 +1,6 @@
 package model;
 
+// Một dòng phiếu nhập: đầu tài liệu, số lượng nhập và đơn giá tại thời điểm nhập.
 public class ImportItem7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

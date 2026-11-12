@@ -11,8 +11,9 @@ import model.Reader7;
 import model.ReaderCard7;
 import model.ReaderType7;
 
-public class ReaderCardDAO extends DAO {
-    public ReaderCardDAO() {
+// Tra cứu thẻ cùng thông tin chủ thẻ và quy định mượn của loại bạn đọc.
+public class ReaderCardDAO7 extends DAO {
+    public ReaderCardDAO7() {
         super();
     }
 
@@ -25,6 +26,7 @@ public class ReaderCardDAO extends DAO {
         try (Connection con = getConnection()) { return getReaderCardByNumber(con, cardNumber); }
     }
 
+    // Dùng kết nối do bên gọi cung cấp để đọc thẻ trong cùng giao dịch lưu phiếu; không đóng kết nối ở đây.
     ReaderCard7 getReaderCardByNumber(Connection con, String cardNumber) throws SQLException {
         ReaderCard7 kq = null;
         String sql = "SELECT c.*, t.id AS idType, t.name AS typeName, t.maxBooks, t.loanDays, t.description AS typeDescription, m.username, m.lastName, m.middleName, m.firstName, "

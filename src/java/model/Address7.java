@@ -1,5 +1,6 @@
 package model;
 
+// Địa chỉ của thành viên hoặc nhà cung cấp, được tách thành các thành phần để lưu và hiển thị.
 public class Address7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

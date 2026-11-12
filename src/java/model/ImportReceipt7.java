@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Date;
 
+// Phiếu nhập tài liệu, gồm nhà cung cấp, nhân viên lập và các dòng nhập.
 public class ImportReceipt7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
@@ -27,6 +28,7 @@ public class ImportReceipt7 implements java.io.Serializable {
         this.id = id;
     }
 
+    // Các getter/setter kiểu Date dùng bản sao để bên ngoài không sửa trực tiếp ngày đang lưu trong đối tượng.
     public Date getImportedAt() {
         return importedAt == null ? null : new Date(importedAt.getTime());
     }
@@ -67,6 +69,7 @@ public class ImportReceipt7 implements java.io.Serializable {
         this.librarian = librarian;
     }
 
+    // Trả danh sách chỉ đọc; setter bên dưới sao chép danh sách đầu vào để giữ tính đóng gói.
     public List<ImportItem7> getImportItems() {
         return Collections.unmodifiableList(importItems);
     }

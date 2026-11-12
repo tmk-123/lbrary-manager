@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Date;
 
+// Phiếu mượn gồm bạn đọc, nhân viên lập và các bản tài liệu được chọn trong lượt mượn.
 public class Loan7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
@@ -26,6 +27,7 @@ public class Loan7 implements java.io.Serializable {
         this.id = id;
     }
 
+    // Các getter/setter kiểu Date dùng bản sao để bên ngoài không sửa trực tiếp ngày đang lưu trong đối tượng.
     public Date getBorrowedAt() {
         return borrowedAt == null ? null : new Date(borrowedAt.getTime());
     }
@@ -58,6 +60,7 @@ public class Loan7 implements java.io.Serializable {
         this.librarian = librarian;
     }
 
+    // Trả danh sách chỉ đọc; setter bên dưới sao chép danh sách đầu vào để giữ tính đóng gói.
     public List<LoanItem7> getLoanItems() {
         return Collections.unmodifiableList(loanItems);
     }
@@ -66,8 +69,10 @@ public class Loan7 implements java.io.Serializable {
         ensureDraft();
         this.loanItems = loanItems == null ? new ArrayList<>() : new ArrayList<>(loanItems);
     }
+    // Phiếu có ID dương là phiếu đã được lưu vào CSDL.
     public boolean isSaved() { return id > 0; }
 
+    // Chỉ thêm vào phiếu chưa lưu; từ chối dòng không hợp lệ hoặc bản tài liệu bị chọn trùng.
     public void addLoanItem(LoanItem7 item) {
         ensureDraft();
         if (item == null || item.getDocumentCopy() == null) throw new IllegalArgumentException("Dòng mượn không hợp lệ");
@@ -77,11 +82,13 @@ public class Loan7 implements java.io.Serializable {
         loanItems.add(item);
     }
 
+    // Bỏ bản tài liệu theo ID; trả false nếu không có bản đó trong phiếu tạm.
     public boolean removeLoanItem(int idCopy) {
         ensureDraft();
         return loanItems.removeIf(item -> item.getDocumentCopy().getId() == idCopy);
     }
 
+    // Chặn thay đổi danh sách sau khi phiếu đã lưu.
     private void ensureDraft() {
         if (isSaved()) throw new IllegalStateException("Phiếu đã lưu không được thay đổi danh sách mượn");
     }

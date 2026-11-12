@@ -206,11 +206,32 @@ INSERT INTO tblDocumentCopy7(id, barcode, `condition`, status, tblDocument7id, t
  (31001, 'DC0310-01', 'Tốt', 'Đang mượn', 310, 13),
  (45601, 'DC0456-01', 'Tốt', 'Sẵn có', 456, 12),
  (45602, 'DC0456-02', 'Tốt', 'Sẵn có', 456, 12),
- (87702, 'DC0877-02', 'Tốt', 'Đang mượn', 877, 13);
+ (87702, 'DC0877-02', 'Tốt', 'Đang mượn', 877, 13),
+ -- Cac ban bo sung deu da duoc xep ke: giao trinh o B2, sach tham khao o C1.
+ (87703, 'TEST-310-04', 'Tốt', 'Sẵn có', 310, 13),
+ (87704, 'TEST-310-03', 'Tốt', 'Sẵn có', 310, 13),
+ (87705, 'TEST-310-02', 'Tốt', 'Sẵn có', 310, 13),
+ (87706, 'TEST-310-01', 'Tốt', 'Sẵn có', 310, 13),
+ (87707, 'TEST-877-04', 'Tốt', 'Sẵn có', 877, 13),
+ (87708, 'TEST-877-03', 'Tốt', 'Sẵn có', 877, 13),
+ (87709, 'TEST-877-02', 'Tốt', 'Sẵn có', 877, 13),
+ (87710, 'TEST-877-01', 'Tốt', 'Sẵn có', 877, 13),
+ (87711, 'TEST-123-04', 'Tốt', 'Sẵn có', 123, 12),
+ (87712, 'TEST-123-03', 'Tốt', 'Sẵn có', 123, 12),
+ (87713, 'TEST-123-02', 'Tốt', 'Sẵn có', 123, 12),
+ (87714, 'TEST-123-01', 'Tốt', 'Sẵn có', 123, 12),
+ (87715, 'TEST-124-04', 'Tốt', 'Sẵn có', 124, 12),
+ (87716, 'TEST-124-03', 'Tốt', 'Sẵn có', 124, 12),
+ (87717, 'TEST-124-02', 'Tốt', 'Sẵn có', 124, 12),
+ (87718, 'TEST-124-01', 'Tốt', 'Sẵn có', 124, 12),
+ (87719, 'TEST-456-04', 'Tốt', 'Sẵn có', 456, 12),
+ (87720, 'TEST-456-03', 'Tốt', 'Sẵn có', 456, 12),
+ (87721, 'TEST-456-02', 'Tốt', 'Sẵn có', 456, 12),
+ (87722, 'TEST-456-01', 'Tốt', 'Sẵn có', 456, 12);
 -- ban doc dang muon 1 cuon (hien o trang xac dinh ban doc)
 INSERT INTO tblLoan7(id, borrowedAt, note, tblReader7id, tblStaff7id) VALUES (14, '2026-10-02 09:15:00', NULL, 1023, 1024);
 INSERT INTO tblLoanItem7(id, dueDate, tblLoan7id, tblDocumentCopy7id) VALUES (290, '2027-03-01', 14, 87702); -- 02/10/2026 + 150 ngay
--- ban doc thu hai dang muon 3 ban (de trang chi tiet hien "sẵn có 3/5")
+-- ban doc thu hai dang muon 3 ban
 INSERT INTO tblMember7(id, username, password, lastName, middleName, firstName, dateOfBirth, phone, email, tblAddress7id) VALUES
  (1025, 'namlv', '123456', 'Lê', 'Văn', 'Nam', '2004-01-15', '0988111222', 'nam.lv@stu.edu.vn', NULL);
 INSERT INTO tblReader7(tblMember7id, tblReaderType7id) VALUES (1025, 3);

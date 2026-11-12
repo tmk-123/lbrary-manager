@@ -1,5 +1,6 @@
 package model;
 
+// Vị trí lưu bản tài liệu trong thư viện, xác định bằng mã kệ, phòng và tầng.
 public class Shelf7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

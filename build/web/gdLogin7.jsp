@@ -12,7 +12,9 @@
 %> <h4>Hết phiên làm việc. Làm ơn đăng nhập lại!</h4><%
 	} else if (request.getParameter("err") != null && request.getParameter("err").equalsIgnoreCase("fail")) {
 %> <h4 style="color:red">Sai tên đăng nhập/mật khẩu!</h4><%
-	} else if (request.getParameter("err") != null && request.getParameter("err").equalsIgnoreCase("role")) {
+	} else if ("data".equals(request.getParameter("err"))) {
+%> <h4 style="color:red">Không thể kết nối dữ liệu. Vui lòng thử lại!</h4><%
+    } else if (request.getParameter("err") != null && request.getParameter("err").equalsIgnoreCase("role")) {
 %> <h4 style="color:red">Tài khoản đúng nhưng vai trò này chưa có chức năng trong phiên bản hiện tại (chỉ cài đặt chức năng của bạn đọc và nhân viên thư viện).</h4><%
 	}
 %>

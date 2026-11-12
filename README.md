@@ -7,9 +7,9 @@ MVC: JSP hiển thị → Servlet điều phối → DAO truy cập CSDL; model 
 - JDK 26.0.2.1, biên dịch --release 17.
 - Apache Tomcat 11.0.26; jakarta.servlet.
 - MySQL Server 8.0; Connector/J 9.6.0.
-- Project NetBeans: thư mục hiện tại (demo), source/target Java 17. Chạy thử đã xác nhận trên JDK 26.
+- Project NetBeans: LibMan trong thư mục hiện tại, source/target Java 17. Chạy thử đã xác nhận trên JDK 26.
 
-Chỉ chỉnh sửa mã Java trong src/java và giao diện JSP trong web. Đây là cây mã nguồn duy nhất của dự án. SQL tạo CSDL nằm trong sql; cấu hình mẫu nằm trong config. WAR: demo.war, context /demo.
+Chỉ chỉnh sửa mã Java trong src/java và giao diện JSP trong web. Đây là cây mã nguồn duy nhất của dự án. SQL tạo CSDL nằm trong sql; cấu hình mẫu nằm trong config. WAR: LibMan.war, context /LibMan.
 
 ## Cấu hình và chạy
 
@@ -17,7 +17,7 @@ Chỉ chỉnh sửa mã Java trong src/java và giao diện JSP trong web. Đây
 2. Sao chép config/libman-db.properties.example vào thư mục user.home/.libman/libman-db.properties. Trên Windows thường là %USERPROFILE%/.libman/libman-db.properties. Điền db.url, db.user, db.password. Thông tin kết nối của máy hiện tại đã được chuyển vào file riêng này.
 3. Chọn file khác bằng -Dlibman.config=<đường dẫn>. Các system property libman.db.url/user/password, rồi biến môi trường LIBMAN_DB_URL/USER/PASSWORD, được ưu tiên hơn nội dung file.
 4. Đặt Connector/J trong WEB-INF/lib. Project NetBeans tham chiếu JAR trên máy và đóng gói thư viện đó vào WAR.
-5. Build/run demo trên Tomcat; mở http://localhost:8080/demo/gdLogin7.jsp.
+5. Build/run LibMan trên Tomcat; mở http://localhost:8080/LibMan/gdLogin7.jsp.
 
 Mật khẩu MySQL nằm ngoài source/WAR. Mỗi thao tác mở/đóng Connection riêng; mọi câu lệnh lưu một phiếu dùng chung một Connection của transaction đó.
 

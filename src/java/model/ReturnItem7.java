@@ -1,5 +1,6 @@
 package model;
 
+// Một dòng trả tham chiếu dòng mượn, ghi nhận tình trạng khi trả và tiền phạt.
 public class ReturnItem7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

@@ -1,5 +1,6 @@
 package model;
 
+// Thông tin liên hệ và địa chỉ nhà cung cấp tài liệu cho thư viện.
 public class Supplier7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

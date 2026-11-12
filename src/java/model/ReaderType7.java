@@ -1,5 +1,6 @@
 package model;
 
+// Quy định theo loại bạn đọc: số bản tối đa được mượn và số ngày được giữ tài liệu.
 public class ReaderType7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

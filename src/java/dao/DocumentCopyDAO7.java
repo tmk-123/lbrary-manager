@@ -13,8 +13,9 @@ import model.DocumentCopy7;
 import model.DocumentType7;
 import model.Shelf7;
 
-public class DocumentCopyDAO extends DAO {
-    public DocumentCopyDAO() {
+// Truy vấn các bản tài liệu theo đầu tài liệu hoặc mã vạch để xem chi tiết và lập phiếu mượn.
+public class DocumentCopyDAO7 extends DAO {
+    public DocumentCopyDAO7() {
         super();
     }
 
@@ -25,6 +26,7 @@ public class DocumentCopyDAO extends DAO {
      */
     public ArrayList<DocumentCopy7> getCopiesOfDocument(int idDocument) throws SQLException {
         ArrayList<DocumentCopy7> kq = new ArrayList<DocumentCopy7>();
+        // LEFT JOIN kệ để vẫn lấy được bản tài liệu chưa được xếp kệ.
         String sql = "SELECT c.*, s.code, s.room, s.floor, s.description AS shelfDescription "
                 + "FROM tblDocumentCopy7 c LEFT JOIN tblShelf7 s ON s.id = c.tblShelf7id "
                 + "WHERE c.tblDocument7id = ? ORDER BY c.barcode";
@@ -78,6 +80,7 @@ public class DocumentCopyDAO extends DAO {
             ps.setString(1, barcode.trim());
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
+                    // Một bản có thể có nhiều dòng do JOIN tác giả; chỉ khởi tạo bản và đầu tài liệu một lần.
                     if (kq == null) {
                         kq = new DocumentCopy7();
                         kq.setId(rs.getInt("id"));

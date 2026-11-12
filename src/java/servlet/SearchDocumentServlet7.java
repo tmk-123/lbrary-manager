@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 
-import dao.DocumentDAO;
+import dao.DocumentDAO7;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,6 +35,7 @@ public class SearchDocumentServlet7 extends HttpServlet {
             resp.sendRedirect("../gdLogin7.jsp?err=timeout");
             return;
         }
+        // Đọc txtTitle từ form tìm kiếm hoặc URL quay lại kết quả của trang chi tiết.
         String title = req.getParameter("txtTitle");
         ArrayList<Document7> listDocument = null;
         String message = null;
@@ -42,7 +43,7 @@ public class SearchDocumentServlet7 extends HttpServlet {
             message = "Vui lòng nhập tên tài liệu";
         } else {
             try {
-                listDocument = new DocumentDAO().searchDocumentByTitle(title.trim());
+                listDocument = new DocumentDAO7().searchDocumentByTitle(title.trim());
             } catch (SQLException e) {
                 LOG.log(Level.WARNING, "Cannot search documents", e);
                 message = "Không thể tải dữ liệu, vui lòng thử lại";
@@ -60,6 +61,7 @@ public class SearchDocumentServlet7 extends HttpServlet {
         } else if ("notfound".equals(req.getParameter("err"))) {
             message = "Tài liệu không còn tồn tại";
         }
+        // Giữ danh sách trong session, còn ô nhập và thông báo được truyền qua request cho JSP.
         session.setAttribute("listDocument", listDocument);
         req.setAttribute("txtTitle", title == null ? "" : title);
         req.setAttribute("message", message);
@@ -67,6 +69,7 @@ public class SearchDocumentServlet7 extends HttpServlet {
     }
 
     @Override
+    // POST dùng lại luồng GET để hai cách gửi yêu cầu có cùng xử lý tìm kiếm.
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doGet(req, resp);
     }

@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+// Kế thừa nhà cung cấp và bổ sung số lượng, giá trị nhập trong khoảng thống kê.
 public class SupplierStats7 extends Supplier7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private Date periodStart;
@@ -13,6 +14,7 @@ public class SupplierStats7 extends Supplier7 implements java.io.Serializable {
         super();
     }
 
+    // Các getter/setter kiểu Date dùng bản sao để bên ngoài không sửa trực tiếp ngày đang lưu trong đối tượng.
     public Date getPeriodStart() {
         return periodStart == null ? null : new Date(periodStart.getTime());
     }

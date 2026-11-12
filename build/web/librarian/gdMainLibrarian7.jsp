@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="model.*"%>
+    pageEncoding="UTF-8" import="model.*,util.View7"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,19 +15,15 @@
 		response.sendRedirect("../gdLogin7.jsp?err=timeout");
 		return;
 	}
-	// ket thuc (hoac huy) mot luot cho muon: xoa du lieu tam cua luot truoc
-	session.removeAttribute("loan");
-	session.removeAttribute("readerCard");
-	session.removeAttribute("listCurrentLoan");
 	FullName7 fn = librarian.getFullName();
 	String name = fn.getLastName() + " " + (fn.getMiddleName() == null ? "" : fn.getMiddleName() + " ") + fn.getFirstName();
 %>
 <h2> Trang chủ nhân viên thư viện </h2>
-<p>Nhân viên: <%=name %></p>
+<p>Nhân viên: <%=View7.html(name)%></p>
 <!-- -borrowDocument : link -->
-<a href="gdIdentifyReader7.jsp">Cho mượn tài liệu</a>
+<a href="IdentifyReaderServlet7">Cho mượn tài liệu</a>
 <br><br>
-<!-- -logout : link -->
-<button onclick="openPage('../LogoutServlet7')">Đăng xuất</button>
+<!-- -logout : submit -->
+<form action="../LogoutServlet7" method="post"><button type="submit" name="logout">Đăng xuất</button></form>
 </body>
 </html>

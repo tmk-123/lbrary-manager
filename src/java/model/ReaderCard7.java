@@ -2,6 +2,7 @@ package model;
 
 import java.util.Date;
 
+// Thẻ bạn đọc, chứa số thẻ, thời gian hiệu lực, trạng thái và chủ thẻ.
 public class ReaderCard7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
@@ -31,6 +32,7 @@ public class ReaderCard7 implements java.io.Serializable {
         this.cardNumber = cardNumber;
     }
 
+    // Các getter/setter kiểu Date dùng bản sao để bên ngoài không sửa trực tiếp ngày đang lưu trong đối tượng.
     public Date getIssuedAt() {
         return issuedAt == null ? null : new Date(issuedAt.getTime());
     }

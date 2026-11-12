@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*,model.*"%>
+    pageEncoding="UTF-8" import="java.util.*,model.*,util.View7"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,17 +18,17 @@
 	// -txtTitle : Text
 	String title = (String) request.getAttribute("txtTitle");
 	// -listDocument : Document7[] (chi co khi vua tim; mo truc tiep trang thi bang rong)
-	ArrayList<Document7> listDocument = (title == null) ? null : (ArrayList<Document7>) session.getAttribute("listDocument");
+	List<Document7> listDocument = (title == null) ? null : View7.list(session.getAttribute("listDocument"), Document7.class);
 	String message = (String) request.getAttribute("message");
 %>
 <body>
 <h2> Tìm tài liệu </h2>
-<form name="timtailieu" action="SearchDocumentServlet7" method="post">
+<form name="timtailieu" action="SearchDocumentServlet7" method="get">
 	Tên tài liệu:
-	<input type="text" name="txtTitle" value="<%=title == null ? "" : title %>" placeholder="nhập tên hoặc một phần tên" size="40" />
+	<input type="text" name="txtTitle" value="<%=View7.html(title == null ? "" : title)%>" placeholder="nhập tên hoặc một phần tên" size="40" />
 	<input type="submit" name="btnSearch" value="Tìm kiếm" />
 </form>
-<% if (message != null) { %><p class="err"><%=message %></p><% } %>
+<% if (message != null) { %><p class="err"><%=View7.html(message)%></p><% } %>
 
 <h3>Kết quả tìm kiếm</h3>
 <!-- -tblDocument : Table -->
@@ -43,14 +43,14 @@
 				authors += (authors.length() > 0 ? ", " : "") + da.getAuthor().getName();
 %>
 	<tr>
-		<td><%=(i + 1) %></td>
-		<td><%=String.format("TL%04d", d.getId()) %></td>
-		<td><%=d.getTitle() %></td>
-		<td><%=authors %></td>
-		<td><%=d.getPublicationYear() %></td>
-		<td><%=d.getDocumentType().getName() %></td>
+		<td><%=View7.html((i + 1))%></td>
+		<td><%=View7.html(String.format("TL%04d", d.getId()))%></td>
+		<td><%=View7.html(d.getTitle())%></td>
+		<td><%=View7.html(authors)%></td>
+		<td><%=View7.html(d.getPublicationYear())%></td>
+		<td><%=View7.html(d.getDocumentType().getName())%></td>
 		<!-- -viewDetail : link -->
-		<td><a href="DocumentDetailServlet7?idDocument=<%=d.getId() %>">Chi tiết</a></td>
+		<td><a href="DocumentDetailServlet7?idDocument=<%=View7.html(d.getId())%>">Chi tiết</a></td>
 	</tr>
 <%		} %>
 </table>

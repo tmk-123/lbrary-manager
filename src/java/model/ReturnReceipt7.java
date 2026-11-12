@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Date;
 
+// Phiếu trả tài liệu, gồm bạn đọc, nhân viên nhận trả và các dòng trả.
 public class ReturnReceipt7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
@@ -27,6 +28,7 @@ public class ReturnReceipt7 implements java.io.Serializable {
         this.id = id;
     }
 
+    // Các getter/setter kiểu Date dùng bản sao để bên ngoài không sửa trực tiếp ngày đang lưu trong đối tượng.
     public Date getReturnedAt() {
         return returnedAt == null ? null : new Date(returnedAt.getTime());
     }
@@ -67,6 +69,7 @@ public class ReturnReceipt7 implements java.io.Serializable {
         this.librarian = librarian;
     }
 
+    // Trả danh sách chỉ đọc; setter bên dưới sao chép danh sách đầu vào để giữ tính đóng gói.
     public List<ReturnItem7> getReturnItems() {
         return Collections.unmodifiableList(returnItems);
     }

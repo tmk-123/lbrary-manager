@@ -1,5 +1,6 @@
 package model;
 
+// Thông tin tác giả; vai trò của tác giả trong từng tài liệu được lưu ở DocumentAuthor7.
 public class Author7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

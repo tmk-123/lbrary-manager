@@ -1,5 +1,6 @@
 package model;
 
+// Một bản tài liệu cụ thể, có mã vạch riêng, tình trạng, trạng thái mượn và vị trí kệ.
 public class DocumentCopy7 implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     private int id;
